@@ -27,8 +27,10 @@ function runGame (gameType) {
 
     if (gameType === "addition") {
         displayAdditionQuestion(num1,num2)
-    } else {alert(`unknown game type: ${gameType}`)
-    throw `unknown game type: ${gameType}. Aborting`;
+    } else if (gameType === "multiply") {
+    displayMultiplyQuestion(num1,num2)
+} else {alert(`unknown game type: ${gameType}`)
+throw `unknown game type: ${gameType}. Aborting`;
 }
 
 }
@@ -45,14 +47,19 @@ function calculateCorrectAnswer () {
 
     if (operator === "+") {
         return [operand1 + operand2, "addition"]
+    }else if (operator ==="x"){
+        return [operand1 * operand2, "multiply"]
     } else {
         alert ("ce n'est pas ceci ni cela")
         throw "cen'est ni ceci ni cela";
     }
 }
-
+/**
+ * get the current score from the DOM and increment it by 1
+ */
 function incrementScore () {
-
+    let oldScore = parseInt(document.getElementById("score").innerText)
+    document.getElementById("score").innerText = ++oldScore
 }
 
 /**
@@ -62,23 +69,29 @@ function incrementScore () {
 function checkAnswer () {
     let userAnswer = parseInt(document.getElementById("answer-box").value)
     let calculatedAnswer = calculateCorrectAnswer();
-    let isCorrect = userAnswer === calculateCorrectAnswer[0];
+    let isCorrect = userAnswer === calculatedAnswer[0];
 
     if (isCorrect) {
         alert("hey you have got it right!!!!!!!:" )
+        incrementScore()
     }else {
-        alert(`you answered ${userAnswer}. The correct answer was ${calculatedAnswer}[0]`);
+        alert(`you answered ${userAnswer}. The correct answer was ${calculatedAnswer[0]}`);
+    incrementWrongAnswer()
     }
     runGame(calculatedAnswer[1])
     }
 
     runGame(calculatedAnswer[1])
 
-
+/**
+ * get the tally of wrong answers and increment it by 1 from the DOM and increment it by 1
+ */
 
 function incrementWrongAnswer () {
-
+    let oldScore = parseInt(document.getElementById("incorrect").innerText)
+    document.getElementById("incorrect").innerText = ++oldScore
 }
+
 
 function displayAdditionQuestion (operand1 , operand2) {
     document.getElementById("operand1").textContent = operand1;
@@ -91,7 +104,10 @@ function displaySubstractQuestion () {
 
 }
 
-function displayMultiplyQuestion () {
+function displayMultiplyQuestion (operand1 , operand2) {
+    document.getElementById("operand1").textContent = operand1;
+    document.getElementById("operand2").textContent = operand2;
+    document.getElementById("operator").textContent = "x";
 
 }
 
